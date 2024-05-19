@@ -84,6 +84,7 @@ editCanvas.height = Math.min(480, canvasAreaheight); //初期描画縦サイズ
 let isDrawing = false;
 let lastX = 0;
 let lastY = 0;
+let oldPos;
 let bold_line = 1; //ラインの太さ
 let color = '#000000'; //ラインの色
 
@@ -128,6 +129,55 @@ const draw = (e) => {
   [lastX, lastY] = [e.offsetX, e.offsetY];
 }
 
+editCanvas.addEventListener('mousedown', (e) => {
+  isDrawing = true;
+  [lastX, lastY] = [e.offsetX, e.offsetY];
+});
+
+
+editCanvas.addEventListener('mousemove', draw);
+editCanvas.addEventListener('mouseup', () => isDrawing = false);
+editCanvas.addEventListener('mouseout', () => isDrawing = false);
+
+//タッチ操作
+const drawT = (e) => {
+  e.preventDefault()
+  let pos = getPosT(e);
+  if (!isDrawing) return;
+  ctxEdit.strokeStyle = color;
+  ctxEdit.lineWidth = bold_line;
+  ctxEdit.beginPath();
+  ctxEdit.lineJoin="round"; //描画を丸くする
+  ctxEdit.lineCap ="round"; //描画を丸くする
+  ctxEdit.moveTo(pos.x, pos.y);
+  ctxEdit.lineTo(oldPos.x, oldPos.y);
+  ctxEdit.stroke();
+  ctxEdit.closePath();
+  oldPos = pos;
+}
+
+// タップ位置を取得する為の関数群
+  //スクロールの影響を見る関数　必要なかった
+function scrollX(){return document.documentElement.scrollLeft || document.body.scrollLeft;}
+function scrollY(){return document.documentElement.scrollTop || document.body.scrollTop;}
+
+function getPosT (event) {
+  const rect = editCanvas.getBoundingClientRect();
+  let mouseX = event.touches[0].clientX - rect.left ;
+  let mouseY = event.touches[0].clientY - rect.top ;
+  return {x:mouseX, y:mouseY};
+}
+
+editCanvas.addEventListener('touchstart', (e) => {
+  isDrawing = true;
+  e.preventDefault()
+  oldPos = getPosT(e);
+},false); //false バブリングフェイズで動作するように。省略可
+
+editCanvas.addEventListener('touchmove', drawT);
+editCanvas.addEventListener('touchend', () => isDrawing = false);
+
+
 
 //消しゴム機能実装
 const elase = document.querySelector('#imgElase');
@@ -141,14 +191,7 @@ clear.addEventListener('click', ()=>{
   ctxEdit.clearRect(0, 0, editCanvas.width, editCanvas.height);
 });
 
-editCanvas.addEventListener('mousedown', (e) => {
-  isDrawing = true;
-  [lastX, lastY] = [e.offsetX, e.offsetY];
-});
 
-editCanvas.addEventListener('mousemove', draw);
-editCanvas.addEventListener('mouseup', () => isDrawing = false);
-editCanvas.addEventListener('mouseout', () => isDrawing = false);
 
 //画像アップロード用のCanvas-----------------------
 
@@ -175,25 +218,8 @@ function uploadImg(load){
   const reader = new FileReader(); //ファイル読み込みのためのオブジェクト
   
   reader.onload = () => { //onload 読み込みが終わったときに発火する
-
     //イメージのアップロード
     loadImg(reader.result);
-    // const img = new Image(); //document.createElement('img')と同等
-    // img.onload = () => {
-    //   // 画像のサイズにキャンバスを合わせる
-    //   let scale = Math.min(
-    //     canvasAreaWidth / img.naturalWidth,
-    //     canvasAreaheight / img.naturalHeight
-    //   );
-    //   imgCanvas.width = img.width * scale;
-    //   imgCanvas.height = img.height * scale;
-    //   editCanvas.width = imgCanvas.width
-    //   editCanvas.height = imgCanvas.height
-      
-      
-    //   ctxImg.drawImage(img, 0, 0, imgCanvas.width, imgCanvas.height); //描画(画像, x, y, size-w, size-h)
-    // }
-    // img.src = reader.result; //描画する画像の読み込み
   }
   reader.readAsDataURL(file);//アップロードファイル（画像）の読み込み
  } 
@@ -221,16 +247,6 @@ function uploadImg(load){
   const img = new Image(); //document.createElement('img')と同等
   img.onload = () => {
     // 画像のサイズにキャンバスを合わせる
-    let scale = Math.min(
-      canvasAreaWidth / img.naturalWidth,
-      canvasAreaheight / img.naturalHeight
-    );
-    imgCanvas.width = img.width * scale;
-    imgCanvas.height = img.height * scale;
-    editCanvas.width = imgCanvas.width
-    editCanvas.height = imgCanvas.height
-    
-    
     ctxEdit.drawImage(img, 0, 0, imgCanvas.width, imgCanvas.height); //描画(画像, x, y, size-w, size-h)
   }
   img.src = importEdit; //描画する画像の読み込み
@@ -246,8 +262,8 @@ function uploadImg(load){
   imgSave.addEventListener('click', ()=>{
     dataURLimg = imgCanvas.toDataURL("image/png");
     dataURLedit = editCanvas.toDataURL("image/png");
-    localStorage.setItem('dataURLimg', dataURLimg)
-    localStorage.setItem('dataURLedit', dataURLedit)
+    localStorage.setItem('dataURLimg', dataURLimg);
+    localStorage.setItem('dataURLedit', dataURLedit);
     // imgBox.img = imgCanvas.toDataURL("image/png");
     // imgBox.draw = editCanvas.toDataURL("image/png");
     // dataObj.img = imgBox;
@@ -263,7 +279,6 @@ function uploadImg(load){
  loadImg(img);
  loadEdit(edit)
 
-  
 });
 
 //====================================キャンバス 
