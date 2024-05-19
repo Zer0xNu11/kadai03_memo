@@ -1,0 +1,50 @@
+@import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=DotGothic16&family=Kaisei+Opti&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Kaisei+Opti&display=swap');
+
+@tailwind base;
+@tailwind components;
+
+
+.btn{
+  @apply rounded-xl  shadow-black/80 shadow-md
+  hover:opacity-70 hover:cursor-pointer transition
+  active:translate-y-1 active:shadow-none active:opacity-40
+  text-white select-none m-4 py-2 px-2;
+}
+
+.headline{
+  @apply text-xl lg:m-4 xl:m-12 hover:text-yellow-500
+}
+
+.absolute-center{
+  @apply absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-center
+}
+
+
+@tailwind utilities;
+
+@layer utilities{
+  .animation-delay-5s{
+    animation-delay: 5s;
+  }
+
+  .animation-delay-10s{
+    animation-delay: 10s;
+  }
+
+  .animation-delay-15s{
+    animation-delay: 15s;
+  }
+
+  .animation-delay-20s{
+    animation-delay: 20s;
+  }
+
+  /* .animation-infinit{
+    animation: infinit;
+  } */
+
+}

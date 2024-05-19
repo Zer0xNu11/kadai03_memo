@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="./output.css" rel="stylesheet">
+  <title>メモアプリ</title>
+</head>
+<body>
+  
+<header class="fixed bg-yellow-200 w-full h-20 top-0">
+  <button id="generateBtn" class="rounded-xl  shadow-black/80 shadow-md bg-blue-400
+  hover:opacity-70 hover:cursor-pointer transition
+  active:translate-y-1 active:shadow-none active:opacity-40 w-24
+  text-white select-none m-4 py-2 px-4;">新規作成</button>
+
+</header>
+
+<!-- キャンバス -->
+<section class="z-10 m-4 mt-28">
+  <!-- 線の色を変更 -->
+  <span>描画色</span><input type="color" id="inputCollor">
+  <!-- 線の太さを変更 -->
+  <form>
+      <label for="numberRange">太さ:</label>
+      <input type="range" id="numberRange" min="1" max="50" value="1">
+      <span id="selectedNumber">1</span>
+  </form>
+  <input type="file" id="image-upload">
+  <button id="imgElase">けしごむ</button>
+  <button id="imgDraw">鉛筆</button>
+  <button id="imgClear">全消し</button>
+  <button id="imgSave">保存</button>
+  <button id="imgLoad">ロードする</button>
+  <div id="canvasArea" class="bg-gray-600 relative border-8  border-black w-full h-[80vh] p-0 overflow-hidden">
+    <canvas id="editCanvas" class="absolute z-50 top-0 right-0 left-0 bottom-0 m-auto "></canvas>
+    <canvas id="imgCanvas" class="absolute top-0 right-0 left-0 bottom-0 m-auto  bg-gray-300"></canvas>
+  </div>
+
+</section>
+
+<!-- メイン画面 -->
+<main class="mt-20">
+
+  <!-- <div id="menu" class="bg-gray-300 w-1/2 h-[400px] fixed top-12 right-0 bottom-0 left-0 mx-auto rounded-xl 
+  ">
+    <div>画像アップロード</div>
+    <div><input id="title" type="text"></div>
+    <button id="generateBtn" class="rounded-xl  shadow-black/80 shadow-md bg-blue-400
+    hover:opacity-70 hover:cursor-pointer transition
+    active:translate-y-1 active:shadow-none active:opacity-40 w-24
+    text-white select-none m-4 py-2 px-4;">作成</button>
+    
+  </div> -->
+
+  <section id="main" class="flex justify-start flex-wrap">
+
+  </section>
+
+</main>
+
+  <script src="../js/jquery-3.7.1.min.js"></script>
+  <script src="../../node_modules/flowbite/dist/flowbite.min.js"></script>
+  <script src="../js/main.js"></script>
+</body>
+</html>
