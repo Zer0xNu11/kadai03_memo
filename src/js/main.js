@@ -1,5 +1,6 @@
 'use strict'
 {
+
   let datas = JSON.parse(localStorage.getItem("datas")) || [];
   const dataObjTemp = {
     title: '新しいノート',
@@ -32,7 +33,8 @@
 
   
     designBox(){
-      let boxCss = `<div id= boxId_${this.id} class="flex flex-col items-center bg-gray-600 w-[200px] h-[200px] m-4 rounded-xl"><div class="bg-gray-200 w-4/5 mt-4 h-[100px]"><img src="${this.img}" alt=""></div><div class="mt-1 text-white">${this.title}</div><div class="w-full flex justify-around m-2"><img src="../img/article.svg" alt="" id= edit_${this.id} title="編集する" class="cursor-pointer"><img src="../img/trash.svg" id= del_${this.id} title="削除する" alt="" class="cursor-pointer" ></div></div>`
+      let boxCss = `<div id= boxId_${this.id} class="flex flex-col cursor-pointer shadow-black/80 shadow-md items-center transition
+      active:translate-y-1 active:shadow-none active:opacity-40 bg-gray-600 w-[200px] h-[200px] m-4 rounded-xl hover:opacity-90"><div class="bg-gray-200 w-4/5 mt-4 h-[100px] relative"><img src="${this.img}" alt="" class="block absolute top-0 left-0 right-0 bottom-0 mx-auto max-h-full"></div><div class=" mt-1 px-2 text-white h-6 w-full overflow-y-scroll text-center">${this.title}</div><div class="w-full flex justify-around m-2"><img src="../img/article.svg" alt="" id= edit_${this.id} title="編集する" class="cursor-pointer opacity-70 hover:opacity-100"><img src="../img/trash.svg" id= del_${this.id} title="削除する" alt="" class="cursor-pointer opacity-70 hover:opacity-100 " ></div></div>`
       
       return boxCss;
     }
@@ -72,8 +74,8 @@
 //キャンバス====================================
 
 //キャンバス全体の設定
-const canvasAreaWidth = $('#canvasArea').width(); //キャンバス全体の横サイズ
-const canvasAreaheight = $('#canvasArea').height(); //キャンバス全体の縦サイズ
+let canvasAreaWidth = $('#canvasArea').width(); //キャンバス全体の横サイズ
+let canvasAreaheight = $('#canvasArea').height(); //キャンバス全体の縦サイズ
 
 
 // 描画Canvas-----------------------------
@@ -215,9 +217,8 @@ uploadInput.addEventListener('change', () => {
  uploadImg();
 });
 
-function uploadImg(load){
+function uploadImg(){
   const file = uploadInput.files[0];
-  console.log(load);
   const reader = new FileReader(); //ファイル読み込みのためのオブジェクト
   
   reader.onload = () => { //onload 読み込みが終わったときに発火する
@@ -267,71 +268,58 @@ function uploadImg(load){
 
     localStorage.setItem('dataURLimg', dataURLimg);
     localStorage.setItem('dataURLedit', dataURLedit);
-    localStorage.setItem('merg', dataURLmerg);
+    localStorage.setItem('dataURLmerg', dataURLmerg);
     
     imgBox.img = dataURLimg;
     imgBox.draw = dataURLedit;
     imgBox.merg = dataURLmerg;
     // dataObj.img = imgBox;
     alert('保存しました');
+    $('#canvasMenu').addClass('hidden');
   });
 
+ //キャンバス中止
+ $('#imgClose').on('click', ()=>{
+  $('#canvasMenu').addClass('hidden');
+ }); 
 
+  //画像統合処理
   function merging(){
     const mergImg = new Image(); //document.createElement('img')と同等
     const tempCanvas = document.createElement('canvas');
     const tempCtx = tempCanvas.getContext('2d');
+    
+    tempCanvas.width = editCanvas.width;
+    tempCanvas.height = editCanvas.height;
+    tempCtx.drawImage(imgCanvas, 0, 0);
+    tempCtx.drawImage(editCanvas, 0, 0);
 
-    mergImg.onload = () => {
-      tempCanvas.width = editCanvas.width;
-      tempCanvas.height = editCanvas.height;
-      tempCtx.drawImage(imgCanvas, 0, 0);
-      tempCtx.drawImage(editCanvas, 0, 0);
+    //出力画像確認用（ダウンロード）
+    // const link = document.createElement("a");
+    // link.href = tempCanvas.toDataURL("image/png");
+    // link.download = "test.png";
+    // link.click();
 
-      //出力画像確認用（ダウンロード）
-      // const link = document.createElement("a");
-      // link.href = tempCanvas.toDataURL("image/png");
-      // link.download = "test.png";
-      // link.click();
-
-      return tempCanvas.toDataURL(); 
-    }
-    mergImg.src = tempCanvas.toDataURL();
+    return tempCanvas.toDataURL(); 
+   
    }
-  // const canvas1 = document.getElementById('imgCanvas');
-  // const canvas2 = document.getElementById('drawCanvas');
   
-  // const combinedImage = new Image();
-  
-  // // キャンバスの内容を一時的なキャンバスに描画し、Data URLとして取得
-  // const tempCanvas = document.createElement('canvas');
-  // const tempCtx = tempCanvas.getContext('2d');
-  // tempCanvas.width = editCanvas.width;
-  // tempCanvas.height = editCanvas.height;
-  // tempCtx.drawImage(canvas1, 0, 0);
-  // tempCtx.drawImage(canvas2, canvas1.width, 0);
-  // combinedImage.src = tempCanvas.toDataURL();
-  
-  // // 結合された画像を表示
-  // document.body.appendChild(combinedImage);
+// 初期化
+$('#canvasMenu').addClass('hidden');
+$('#editMode').addClass('hidden');
 
-
-
-
-
-
-
-//load
- const imgLoad = document.querySelector('#imgLoad');
- imgLoad.addEventListener('click', ()=>{
-  const img = localStorage.getItem('dataURLimg');
-  const edit = localStorage.getItem('dataURLedit');
+//未実装機能-----------------------
+// //load
+//  const imgLoad = document.querySelector('#imgLoad');
+//  imgLoad.addEventListener('click', ()=>{
+//   const img = localStorage.getItem('dataURLimg');
+//   const edit = localStorage.getItem('dataURLedit');
  
- loadImg(img);
- loadEdit(edit)
+//  loadImg(img); //画像がない場合もeditキャンバスの大きさが変わってしまうため、あとから編集する機能を入れたい場合はこのあたり修正の必要あり。
+//  loadEdit(edit)
 
-});
-
+// });
+//-----------------------未実装機能
 //====================================キャンバス 
 
 
@@ -365,6 +353,7 @@ function uploadImg(load){
   dataObj.text = $('#editText').val();
   dataObj.img = imgBox.merg;
   dataObj.imgThumbnail = imgBox.merg;
+  console.log(imgBox.merg);
 
   datas.push(dataObj);
   console.log(`datas= ${datas}`);
@@ -400,6 +389,7 @@ function uploadImg(load){
   });
   console.log(`dataBox= ${dataBox}`);
  }
+
 
 // 編集ボタン
 // $('edit').on('click')

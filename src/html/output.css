@@ -1224,6 +1224,11 @@ input:checked + .toggle-bg{
   margin-right: auto;
 }
 
+.mx-2{
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+}
+
 .mb-1{
   margin-bottom: 0.25rem;
 }
@@ -1258,6 +1263,14 @@ input:checked + .toggle-bg{
 
 .mt-28{
   margin-top: 7rem;
+}
+
+.mt-8{
+  margin-top: 2rem;
+}
+
+.mt-40{
+  margin-top: 10rem;
 }
 
 .block{
@@ -1352,6 +1365,30 @@ input:checked + .toggle-bg{
   height: 100vh;
 }
 
+.h-2{
+  height: 0.5rem;
+}
+
+.h-8{
+  height: 2rem;
+}
+
+.h-10{
+  height: 2.5rem;
+}
+
+.h-12{
+  height: 3rem;
+}
+
+.h-1{
+  height: 0.25rem;
+}
+
+.max-h-full{
+  max-height: 100%;
+}
+
 .w-1\/2{
   width: 50%;
 }
@@ -1390,6 +1427,14 @@ input:checked + .toggle-bg{
 
 .w-auto{
   width: auto;
+}
+
+.w-\[200\]{
+  width: 200;
+}
+
+.max-w-full{
+  max-width: 100%;
 }
 
 .flex-1{
@@ -1528,6 +1573,14 @@ input:checked + .toggle-bg{
 
 .overflow-hidden{
   overflow: hidden;
+}
+
+.overflow-visible{
+  overflow: visible;
+}
+
+.overflow-y-scroll{
+  overflow-y: scroll;
 }
 
 .rounded-lg{
@@ -1710,6 +1763,16 @@ input:checked + .toggle-bg{
   background-color: rgb(14 159 110 / var(--tw-bg-opacity));
 }
 
+.bg-green-400{
+  --tw-bg-opacity: 1;
+  background-color: rgb(49 196 141 / var(--tw-bg-opacity));
+}
+
+.bg-gray-700{
+  --tw-bg-opacity: 1;
+  background-color: rgb(55 65 81 / var(--tw-bg-opacity));
+}
+
 .bg-\[url\(\'\.\.\/img\/1\.svg\'\)\]{
   background-image: url('../img/1.svg');
 }
@@ -1790,6 +1853,11 @@ input:checked + .toggle-bg{
   line-height: 1.25rem;
 }
 
+.text-xs{
+  font-size: 0.75rem;
+  line-height: 1rem;
+}
+
 .font-medium{
   font-weight: 500;
 }
@@ -1837,6 +1905,18 @@ input:checked + .toggle-bg{
 
 .opacity-100{
   opacity: 1;
+}
+
+.opacity-80{
+  opacity: 0.8;
+}
+
+.opacity-30{
+  opacity: 0.3;
+}
+
+.opacity-70{
+  opacity: 0.7;
 }
 
 .shadow{
@@ -1903,6 +1983,10 @@ input:checked + .toggle-bg{
     animation: infinit;
   } */
 
+.hover\:block:hover{
+  display: block;
+}
+
 .hover\:cursor-pointer:hover{
   cursor: pointer;
 }
@@ -1946,6 +2030,22 @@ input:checked + .toggle-bg{
   opacity: 0.7;
 }
 
+.hover\:opacity-0:hover{
+  opacity: 0;
+}
+
+.hover\:opacity-100:hover{
+  opacity: 1;
+}
+
+.hover\:opacity-90:hover{
+  opacity: 0.9;
+}
+
+.hover\:opacity-30:hover{
+  opacity: 0.3;
+}
+
 .focus\:outline-none:focus{
   outline: 2px solid transparent;
   outline-offset: 2px;
@@ -1980,6 +2080,10 @@ input:checked + .toggle-bg{
 
 .active\:opacity-40:active{
   opacity: 0.4;
+}
+
+.active\:opacity-90:active{
+  opacity: 0.9;
 }
 
 .active\:shadow-none:active{
