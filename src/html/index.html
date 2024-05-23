@@ -24,7 +24,7 @@
 <div class="w-full flex justify-around m-2"><img src="../img/article.svg" alt="" id= edit_${this.id} title="編集する" class="cursor-pointer "><img src="../img/trash.svg" id= del_${this.id} title="削除する" alt="" class="cursor-pointer pointer-events-none  opacity-30 hover:opacity-100" ></div></div> -->
 
 <!-- ========エディットモード ========-->
-<section id="editMode" class="fixed z-20 top-0 bg-sky-700 w-full h-[100vh]">
+<section id="editMode" class="fixed z-20 top-0 bg-sky-700 w-full h-full overflow-scroll">
   <!-- フォーム -->
   <div id="form" class="flex flex-col">
     <div class="text-white">タイトル</div>
@@ -47,18 +47,27 @@
   active:translate-y-1 active:shadow-none active:opacity-40
   text-white m-4 py-2 px-4">保存</button>
 
+  <div class="bg-gray-300 w-10/12 max-w-[480px] mx-auto mb-4"><img id="thumbnail" src="" alt="" class="items-center"></div>
+
   <!-- キャンバス -->
   <div id="canvasMenu" class="text-white absolute w-full h-[100vh]  top-0 bg-green-400">
+    <input type="file" id="image-upload">
     <div class="flex flex-row items-center justify-start">
       <!-- 線の色を変更 -->
     <div class="mx-1"><span>描画色</span><input type="color" id="inputCollor" class="block"></div>
     <!-- 線の太さを変更 -->
-    <form class="block mx-5">
+    <form class="block mx-5 w-1/4">
         <label for="numberRange">太さ:</label>
-        <input type="range" id="numberRange" min="1" max="50" value="1">
         <span id="selectedNumber">1</span>
+        <input type="range" id="numberRange" min="1" max="50" value="1">
+        
     </form>
-    <div>
+    <button id="imgSave" class="bg-sky-400 rounded-xl  shadow-black/80 shadow-md  w-auto 
+    hover:opacity-70 transition
+    active:translate-y-1 active:shadow-none active:opacity-40 m-4 py-3 px-8 mx-auto">保存</button>
+
+  </div>
+  <div class="flex items-center">
     <button id="imgDraw" class="bg-white rounded-full  shadow-black/80 shadow-md  w-auto 
     hover:opacity-70 transition
     active:translate-y-1 active:shadow-none active:opacity-40 m-4 py-2 px-4 mx-auto"><img src="../img/pencil.svg" alt=""></button>
@@ -68,15 +77,10 @@
     <button id="imgClear" class="bg-gray-800 rounded-full  shadow-black/80 shadow-md  w-auto 
     hover:opacity-70 transition
     active:translate-y-1 active:shadow-none active:opacity-40 m-4 py-2 px-4 mx-auto"><img src="../img/trashblue.svg" alt=""></button>
-   </div>
-  </div>
-  <input type="file" id="image-upload">
-    <button id="imgSave" class="bg-sky-400 rounded-full  shadow-black/80 shadow-md  w-auto 
-    hover:opacity-70 transition
-    active:translate-y-1 active:shadow-none active:opacity-40 m-4 py-2 px-4 mx-auto">保存</button>
     <button id="imgClose" class="bg-red-400 rounded-full  shadow-black/80 shadow-md  w-auto 
     hover:opacity-70 transition
-    active:translate-y-1 active:shadow-none active:opacity-40 m-4 py-2 px-4 mx-auto">中止</button>
+    active:translate-y-1 active:shadow-none active:opacity-40 m-4 py-3 px-4 mx-auto">中止</button>
+  </div>
 
     <!-- <button id="imgLoad">ロードする</button> -->
     <div id="canvasArea" class="bg-gray-600 relative border-8  border-black w-full h-[80vh] p-0 mx-auto overflow-hidden">

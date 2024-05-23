@@ -1256,6 +1256,11 @@ input:checked + .toggle-bg{
   margin-right: 1.25rem;
 }
 
+.my-2{
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
 .mb-1{
   margin-bottom: 0.25rem;
 }
@@ -1302,6 +1307,10 @@ input:checked + .toggle-bg{
 
 .mt-3{
   margin-top: 0.75rem;
+}
+
+.mb-4{
+  margin-bottom: 1rem;
 }
 
 .block{
@@ -1416,6 +1425,14 @@ input:checked + .toggle-bg{
   height: 0.25rem;
 }
 
+.h-screen{
+  height: 100vh;
+}
+
+.h-3\/5{
+  height: 60%;
+}
+
 .max-h-full{
   max-height: 100%;
 }
@@ -1476,6 +1493,10 @@ input:checked + .toggle-bg{
   width: 83.333333%;
 }
 
+.w-1\/4{
+  width: 25%;
+}
+
 .max-w-full{
   max-width: 100%;
 }
@@ -1490,6 +1511,14 @@ input:checked + .toggle-bg{
 
 .max-w-\[400px\]{
   max-width: 400px;
+}
+
+.max-w-\[4\]{
+  max-width: 4;
+}
+
+.max-w-\[480px\]{
+  max-width: 480px;
 }
 
 .flex-1{
@@ -1642,8 +1671,16 @@ input:checked + .toggle-bg{
   overflow: hidden;
 }
 
+.overflow-clip{
+  overflow: clip;
+}
+
 .overflow-visible{
   overflow: visible;
+}
+
+.overflow-scroll{
+  overflow: scroll;
 }
 
 .overflow-y-scroll{
@@ -1668,6 +1705,10 @@ input:checked + .toggle-bg{
 
 .rounded-full{
   border-radius: 9999px;
+}
+
+.rounded-sm{
+  border-radius: 0.125rem;
 }
 
 .rounded-e-lg{
@@ -1919,6 +1960,16 @@ input:checked + .toggle-bg{
 .px-4{
   padding-left: 1rem;
   padding-right: 1rem;
+}
+
+.py-4{
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.px-8{
+  padding-left: 2rem;
+  padding-right: 2rem;
 }
 
 .pt-2{

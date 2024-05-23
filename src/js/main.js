@@ -297,6 +297,7 @@ function uploadImg(){
     let dataURLimg = imgCanvas.toDataURL("image/png");
     let dataURLedit = editCanvas.toDataURL("image/png");
     let dataURLmerg = merging();
+    $(`#thumbnail`).attr('src', `${dataURLmerg}`);
 
     // localStorage.setItem('dataURLimg', dataURLimg);
     // localStorage.setItem('dataURLedit', dataURLedit);
@@ -390,6 +391,7 @@ $('#editMode').addClass('hidden');
  function initializeEdit(){
   $('#editTitle').val('');
   $('#editText').val('');
+  $(`#thumbnail`).attr('src', '');
  }
 
  function initializeImg(){
