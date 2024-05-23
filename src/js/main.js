@@ -6,7 +6,6 @@
     title: '新しいノート',
     text: 'テキスト',
     img: null,
-    imgThumbnail: 'サムネイル'
   }
 
 
@@ -20,21 +19,23 @@
   }
 
   class dataDraw{
-    constructor(id, title, img){
+    constructor(id, title, text, img){
       this.id = id;
       this.title = title;
+      this.text = text;
       this.img = img;
       
       this.drawing();
       this.edit();
       this.delete();
+      this.openDetail();
     }
 
 
   
     designBox(){
-      let boxCss = `<div id= boxId_${this.id} class="flex flex-col cursor-pointer shadow-black/80 shadow-md items-center transition
-      active:translate-y-1 active:shadow-none active:opacity-40 bg-gray-600 w-[200px] h-[200px] m-4 rounded-xl hover:opacity-90"><div class="bg-gray-200 w-4/5 mt-4 h-[100px] relative"><img src="${this.img}" alt="" class="block absolute top-0 left-0 right-0 bottom-0 mx-auto max-h-full"></div><div class=" mt-1 px-2 text-white h-6 w-full overflow-y-scroll text-center">${this.title}</div><div class="w-full flex justify-around m-2"><img src="../img/article.svg" alt="" id= edit_${this.id} title="編集する" class="cursor-pointer opacity-70 hover:opacity-100"><img src="../img/trash.svg" id= del_${this.id} title="削除する" alt="" class="cursor-pointer opacity-70 hover:opacity-100 " ></div></div>`
+      let boxCss = `<div id= boxId_${this.id} class="flex flex-col shadow-black/80 shadow-md items-center transition
+      bg-gray-600 w-[200px] h-[200px] m-4 rounded-xl "><div class="bg-gray-200 w-4/5 mt-4 h-[100px] relative"><img src="${this.img}" alt="" class="block absolute top-0 left-0 right-0 bottom-0 mx-auto max-h-full"></div><div class=" mt-1 px-2 text-white h-6 w-full overflow-y-scroll text-center">${this.title}</div><div class="w-full flex justify-around m-2"><img src="../img/article.svg" alt="" id= open_${this.id} title="編集する" class="cursor-pointer opacity-70 hover:opacity-100"><img src="../img/trash.svg" id= del_${this.id} title="削除する" alt="" class="cursor-pointer opacity-70 hover:opacity-100 pointer-events-auto" ></div></div>`
       
       return boxCss;
     }
@@ -57,12 +58,41 @@
         load();
       })
     }
+
+    // initializeDetail(){
+    //   $(`#detailTitle`).html('');
+    //   $(`#detailText`).html('');
+    //   $(`#detailImg`).attr('src', null);
+    // }
+
+    openDetail(){
+      $(`#open_${this.id}`).on('click',()=>{
+        $('#detail').removeClass('hidden');
+        $(`#detailTitle`).html(this.title);
+        $(`#detailText`).html(this.text);
+        $(`#detailImg`).attr('src', `${this.img}`);
+      });
+    }
+
+    closeDetail(){
+      $(`#_${this.id}`).on('click',()=>{
+        $('#detail').removeClass('hidden');
+        $(`#detailTitle`).html(this.title);
+        $(`#detailText`).html(this.text);
+        $(`#detailImg`).attr('src', `${this.img}`);
+      });
+    }
   
   }
 
   if(datas != []){load();}
   console.dir(datas);
 
+  function openDetail(){
+    $(`#detailTitle`).html('test');
+  }
+
+  openDetail();
 
 // function boxId(){
 //   let boxId = `<div id= boxId_${id} ` + 'class="flex flex-col items-center bg-gray-600 w-[200px] h-[200px] m-4 rounded-xl"><div class="bg-gray-200 w-4/5 mt-4 h-[100px]"><img src="" alt=""></div><div class="mt-1 text-white">作品タイトル</div><div class="w-full flex justify-around m-2"><a href="" class="block" data="詳細へ(感想・作品情報)"><img src="../img/article.svg" alt=""></a><a href="" class="block" data="削除する"><img src="../img/trash.svg" alt=""></a></div></div>'
@@ -192,11 +222,13 @@ const clear = document.querySelector('#imgClear');
 elase.addEventListener('click', ()=>{ctxEdit.globalCompositeOperation = 'destination-out'});
 paint.addEventListener('click', ()=>{ctxEdit.globalCompositeOperation = 'source-over'});
 clear.addEventListener('click', ()=>{
-  ctxEdit.beginPath();
-  ctxEdit.clearRect(0, 0, editCanvas.width, editCanvas.height);
+ initializeCanvas();
 });
 
-
+function initializeCanvas(){
+  ctxEdit.beginPath();
+  ctxEdit.clearRect(0, 0, editCanvas.width, editCanvas.height);
+}
 
 //画像アップロード用のCanvas-----------------------
 
@@ -262,13 +294,13 @@ function uploadImg(){
 //save  
   const imgSave = document.querySelector('#imgSave');
   imgSave.addEventListener('click', ()=>{
-    const dataURLimg = imgCanvas.toDataURL("image/png");
-    const dataURLedit = editCanvas.toDataURL("image/png");
-    const dataURLmerg = merging();
+    let dataURLimg = imgCanvas.toDataURL("image/png");
+    let dataURLedit = editCanvas.toDataURL("image/png");
+    let dataURLmerg = merging();
 
-    localStorage.setItem('dataURLimg', dataURLimg);
-    localStorage.setItem('dataURLedit', dataURLedit);
-    localStorage.setItem('dataURLmerg', dataURLmerg);
+    // localStorage.setItem('dataURLimg', dataURLimg);
+    // localStorage.setItem('dataURLedit', dataURLedit);
+    // localStorage.setItem('dataURLmerg', dataURLmerg);
     
     imgBox.img = dataURLimg;
     imgBox.draw = dataURLedit;
@@ -332,6 +364,19 @@ $('#editMode').addClass('hidden');
  $('#generateBtn').on('click', ()=> {
   $('#editMode').removeClass('hidden');
  });
+ 
+  //エディットを閉じる
+ $('#closeEdit').on('click', ()=> {
+  let result=confirm('このメモは破棄されますがよろしいですか？');
+  if(result){
+    initializeEdit();
+    initializeImg();
+    initializeCanvas();
+    $('#editMode').addClass('hidden');
+  }
+  else{ return; }
+  
+ });
 
  //エディター----------------------
 
@@ -342,33 +387,49 @@ $('#editMode').addClass('hidden');
 
  //保存関連
 
+ function initializeEdit(){
+  $('#editTitle').val('');
+  $('#editText').val('');
+ }
+
+ function initializeImg(){
+  ctxImg.beginPath();
+  ctxImg.clearRect(0, 0, imgCanvas.width, imgCanvas.height);
+  imgBox.img = null;
+  imgBox.draw = null;
+  imgBox.merg = null;
+ }
+
  $('#editSave').on('click', ()=> { 
   const dataObj = {
     title: '新しいノート',
     text: 'テキスト',
     img: null,
-    imgThumbnail: 'サムネイル'
   } 
   dataObj.title = $('#editTitle').val();
   dataObj.text = $('#editText').val();
   dataObj.img = imgBox.merg;
-  dataObj.imgThumbnail = imgBox.merg;
   console.log(imgBox.merg);
 
   datas.push(dataObj);
-  console.log(`datas= ${datas}`);
-  console.log(`dataBox= ${dataBox}`);
   dataBox.length = 0;
-  console.log(`dataBox= ${dataBox}`);
 
   save();
   dataBox = [];
   load();
   console.dir(datas);
   $('#editMode').addClass('hidden');
-
+  initializeCanvas();
+  initializeImg();
+  initializeEdit();
 
  });
+
+ //詳細画面
+  //detailClose
+  $(`#closeDetail`).on('click',()=>{
+    $('#detail').addClass('hidden');
+  });
 
  function save(){
   let jsondatas = JSON.stringify(datas);
@@ -385,7 +446,7 @@ $('#editMode').addClass('hidden');
   main.innerHTML = ''; //HTML描画初期化
   datas.forEach((data, index) => {
     console.log(data.title);
-    dataBox[index] = new dataDraw(index, data.title, data.img);
+    dataBox[index] = new dataDraw(index, data.title, data.text, data.img);
   });
   console.log(`dataBox= ${dataBox}`);
  }

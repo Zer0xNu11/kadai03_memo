@@ -16,15 +16,15 @@
 
 </header>
 
-<div id= boxId_${this.id} class="mt-40 flex flex-col items-center bg-gray-600 w-[200px] h-[200px] m-4 rounded-xl">
+<!-- <div id= boxId_${this.id} class="mt-40 flex flex-col items-center bg-gray-600 w-[200px] h-[200px] m-4 rounded-xl pointer-events-none ">
   <div class="bg-gray-200 w-4/5 mt-4 h-[100px] relative">
     <img src="../img/akuma.jpg" alt="" class="block absolute top-0 left-0 right-0 bottom-0 mx-auto max-h-full">
   </div>
 <div class="mt-1 px-2 text-white h-6 w-full overflow-y-scroll text-center">こんにちはこんにちはこんにちはこんにちはこんにちはこんにちはこんにちは</div>
-<div class="w-full flex justify-around m-2"><img src="../img/article.svg" alt="" id= edit_${this.id} title="編集する" class="cursor-pointer "><img src="../img/trash.svg" id= del_${this.id} title="削除する" alt="" class="cursor-pointer opacity-30 hover:opacity-100" ></div></div>
+<div class="w-full flex justify-around m-2"><img src="../img/article.svg" alt="" id= edit_${this.id} title="編集する" class="cursor-pointer "><img src="../img/trash.svg" id= del_${this.id} title="削除する" alt="" class="cursor-pointer pointer-events-none  opacity-30 hover:opacity-100" ></div></div> -->
 
 <!-- ========エディットモード ========-->
-<section id="editMode" class="absolute z-20 top-0 bg-sky-700 w-full h-[100vh]">
+<section id="editMode" class="fixed z-20 top-0 bg-sky-700 w-full h-[100vh]">
   <!-- フォーム -->
   <div id="form" class="flex flex-col">
     <div class="text-white">タイトル</div>
@@ -32,6 +32,11 @@
     <div class="text-white">テキスト</div>
     <textarea name="" id="editText" class="m-2 rounded-md"></textarea>
   </div>
+  <button id="closeEdit" class="bg-red-500 rounded-xl  shadow-black/80 shadow-md  w-auto mx-auto
+  hover:opacity-70 transition
+  active:translate-y-1 active:shadow-none active:opacity-40
+  text-white m-4 py-2 px-4">取り消し</button>
+
   <button id="openCanvas" class="bg-sky-500 rounded-xl  shadow-black/80 shadow-md  w-auto mx-auto
   hover:opacity-70 transition
   active:translate-y-1 active:shadow-none active:opacity-40
@@ -44,20 +49,35 @@
 
   <!-- キャンバス -->
   <div id="canvasMenu" class="text-white absolute w-full h-[100vh]  top-0 bg-green-400">
-    <!-- 線の色を変更 -->
-    <span>描画色</span><input type="color" id="inputCollor">
+    <div class="flex flex-row items-center justify-start">
+      <!-- 線の色を変更 -->
+    <div class="mx-1"><span>描画色</span><input type="color" id="inputCollor" class="block"></div>
     <!-- 線の太さを変更 -->
-    <form>
+    <form class="block mx-5">
         <label for="numberRange">太さ:</label>
         <input type="range" id="numberRange" min="1" max="50" value="1">
         <span id="selectedNumber">1</span>
     </form>
-    <input type="file" id="image-upload">
-    <button id="imgElase">けしごむ</button>
-    <button id="imgDraw">鉛筆</button>
-    <button id="imgClear">全消し</button>
-    <button id="imgSave">保存</button>
-    <button id="imgClose">中止</button>
+    <div>
+    <button id="imgDraw" class="bg-white rounded-full  shadow-black/80 shadow-md  w-auto 
+    hover:opacity-70 transition
+    active:translate-y-1 active:shadow-none active:opacity-40 m-4 py-2 px-4 mx-auto"><img src="../img/pencil.svg" alt=""></button>
+    <button id="imgElase" class="bg-gray-700 rounded-full  shadow-black/80 shadow-md  w-auto 
+    hover:opacity-70 transition
+    active:translate-y-1 active:shadow-none active:opacity-40 m-4 py-2 px-4 mx-auto"><img src="../img/eraser.svg" alt=""></button>
+    <button id="imgClear" class="bg-gray-800 rounded-full  shadow-black/80 shadow-md  w-auto 
+    hover:opacity-70 transition
+    active:translate-y-1 active:shadow-none active:opacity-40 m-4 py-2 px-4 mx-auto"><img src="../img/trashblue.svg" alt=""></button>
+   </div>
+  </div>
+  <input type="file" id="image-upload">
+    <button id="imgSave" class="bg-sky-400 rounded-full  shadow-black/80 shadow-md  w-auto 
+    hover:opacity-70 transition
+    active:translate-y-1 active:shadow-none active:opacity-40 m-4 py-2 px-4 mx-auto">保存</button>
+    <button id="imgClose" class="bg-red-400 rounded-full  shadow-black/80 shadow-md  w-auto 
+    hover:opacity-70 transition
+    active:translate-y-1 active:shadow-none active:opacity-40 m-4 py-2 px-4 mx-auto">中止</button>
+
     <!-- <button id="imgLoad">ロードする</button> -->
     <div id="canvasArea" class="bg-gray-600 relative border-8  border-black w-full h-[80vh] p-0 mx-auto overflow-hidden">
       <canvas id="editCanvas" class="absolute z-50 top-0 right-0 left-0 bottom-0 m-auto "></canvas>
@@ -67,17 +87,21 @@
 </section>
 <!-- =========エディットモード========= -->
 
-<section id="detail" class="absolute z-20 top-0 bg-gray-700 w-full h-[100vh] hidden">
-  <img src="" alt="">
-  <div id="form" class="flex flex-col">
-    <div class="text-white">タイトルタイトルタイトルタイトルタイトルタイトル</div>
-    <div class="text-white">テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト</div>
-  </div>
-  <button id="closeDetail" class="bg-sky-500 rounded-xl  shadow-black/80 shadow-md  w-auto mx-auto
+<!-- =============詳細モード============== -->
+<section id="detail" class="fixed z-20 top-0 bg-gray-700 w-full h-[100vh] hidden">
+  <div class="flex justify-center bg-gray-300 w-10/12 h-[400px] mx-auto mt-3"><img id="detailImg" src="../img/akuma.jpg" alt="" class="block max-w-[400px]"></div>
+
+  <div id="form" class="flex flex-col items-center">
+    <div id="detailTitle" class="text-white text-center text-2xl m-4">タイトルタイトルタイトルタイトルタイトルタイトル</div>
+    <div  id="detailText" class="text-white mx-4 w-10/12">テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト</div>
+    <button id="closeDetail" class="bg-sky-500 rounded-xl  shadow-black/80 shadow-md  w-auto mx-auto
   hover:opacity-70 transition
   active:translate-y-1 active:shadow-none active:opacity-40
   text-white m-4 py-2 px-4">閉じる</button>
+  </div>
+  
 </section>
+<!-- =============詳細モード============== -->
 
 <!-- メイン画面 -->
 <main class="mt-20">
